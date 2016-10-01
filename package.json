@@ -1,0 +1,92 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "sponk-pl/react-native-html-render",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "sponk-pl/react-native-html-render",
+        "spec": "github:sponk-pl/react-native-html-render",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:sponk-pl/react-native-html-render.git",
+          "sshUrl": "git+ssh://git@github.com/sponk-pl/react-native-html-render.git",
+          "httpsUrl": "git+https://github.com/sponk-pl/react-native-html-render.git",
+          "gitUrl": "git://github.com/sponk-pl/react-native-html-render.git",
+          "shortcut": "github:sponk-pl/react-native-html-render",
+          "directUrl": "https://raw.githubusercontent.com/sponk-pl/react-native-html-render/master/package.json"
+        }
+      },
+      "C:\\dev\\react-project"
+    ]
+  ],
+  "_from": "sponk-pl/react-native-html-render",
+  "_id": "react-native-html-render@1.0.3",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-html-render",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "sponk-pl/react-native-html-render",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "sponk-pl/react-native-html-render",
+    "spec": "github:sponk-pl/react-native-html-render",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:sponk-pl/react-native-html-render.git",
+      "sshUrl": "git+ssh://git@github.com/sponk-pl/react-native-html-render.git",
+      "httpsUrl": "git+https://github.com/sponk-pl/react-native-html-render.git",
+      "gitUrl": "git://github.com/sponk-pl/react-native-html-render.git",
+      "shortcut": "github:sponk-pl/react-native-html-render",
+      "directUrl": "https://raw.githubusercontent.com/sponk-pl/react-native-html-render/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git://github.com/sponk-pl/react-native-html-render.git#a2f026d8c58dcef719914e711093b08ad34cc1c5",
+  "_shasum": "c2ec71be687e66e6d285ea2969f89e5af0b8b8fd",
+  "_shrinkwrap": null,
+  "_spec": "sponk-pl/react-native-html-render",
+  "_where": "C:\\dev\\react-project",
+  "author": {
+    "name": "soliury"
+  },
+  "bugs": {
+    "url": "https://github.com/soliury/react-native-html-render/issues"
+  },
+  "dependencies": {},
+  "description": "A html render for react-native",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "istanbul": "^0.3.17",
+    "mocha": "^2.2.5"
+  },
+  "gitHead": "a2f026d8c58dcef719914e711093b08ad34cc1c5",
+  "homepage": "https://github.com/soliury/react-native-html-render#readme",
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "react-native-html-render",
+  "optionalDependencies": {},
+  "readme": "# react-native-html-render\r\n> A html render for react-native. But don't **Suitable for** all html. Only **Suitable for** the html generator by markdown with minify.\r\n> \r\n> Now it used by [Noder](https://github.com/soliury/noder-react-native).\r\n>\r\n> Be careful to use, the performance is not good. If you want to improve the performance, be free to open a issue or send a PR. \r\n\r\n\r\n## Install\r\n\r\n```\r\nnpm install react-native-html-render\r\n```\r\n\r\n## Futures\r\n\r\n* Support img and code render. \r\n* Can set custom render function and styles.\r\n* More beautiful native View.\r\n\r\n## Demo\r\n\r\n![noder-demo](http://7lrzfj.com1.z0.glb.clouddn.com/soliurynoder-html-render.gif)\r\n\r\n## Example\r\n\r\n```\r\nvar React = require('react-native')\r\n\r\nvar HtmlRender = require('react-native-html-render')\r\n\r\nvar window = require('../../util/window')\r\nvar routes = require('../../configs/routes')\r\n\r\n\r\nvar { width, height } = window.get()\r\n\r\nvar {\r\n    Component,\r\n    View,\r\n    Text,\r\n    StyleSheet,\r\n    Image,\r\n    LinkingIOS,\r\n    Navigator\r\n    }=React\r\n\r\nvar contentFontSize = 16\r\n\r\n\r\nvar styles = StyleSheet.create({\r\n    img: {\r\n        width: width - 30,\r\n        height: width - 30,\r\n        resizeMode: Image.resizeMode.contain\r\n    }\r\n})\r\n\r\n\r\nclass HtmlContent extends Component {\r\n    constructor(props) {\r\n        super(props)\r\n    }\r\n\r\n\r\n    _onLinkPress(url) {\r\n        if (/^\\/user\\/\\w*/.test(url)) {\r\n            let authorName = url.replace(/^\\/user\\//, '')\r\n            routes.toUser(this, {\r\n                userName: authorName\r\n            })\r\n        }\r\n\r\n        if (/^https?:\\/\\/.*/.test(url)) {\r\n            window.link(url)\r\n        }\r\n    }\r\n\r\n\r\n    _renderNode(node, index, parent, type) {\r\n        var name = node.name\r\n        if (node.type == 'block' && type == 'block') {\r\n            if (name == 'img') {\r\n                var uri = node.attribs.src;\r\n                if (/^\\/\\/dn-cnode\\.qbox\\.me\\/.*/.test(uri)) {\r\n                    uri = 'https:' + uri\r\n                }\r\n                return (\r\n                    <View\r\n                        key={index}\r\n                        style={styles.imgWrapper}>\r\n                        <Image source={{uri:uri}}\r\n                               style={styles.img}>\r\n                        </Image>\r\n                    </View>\r\n                )\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    render() {\r\n        return (\r\n            <HtmlRender\r\n                value={this.props.content}\r\n                stylesheet={this.props.style}\r\n                onLinkPress={this._onLinkPress.bind(this)}\r\n                renderNode={this._renderNode}\r\n                />\r\n        )\r\n    }\r\n\r\n}\r\n\r\nmodule.exports = HtmlContent\r\n```\r\n\r\n## API\r\n\r\n### `value`\r\n\r\nThe value of html content.\r\n\r\n### `stylesheet`\r\n\r\nCustom styles\r\n\r\n### `onLinkPress`\r\n\r\nHandle the link click event.\r\n\r\n### `renderNode`\r\n\r\nCustom render function.\r\n\r\nThe render function has three arguments.\r\n\r\n**node**: A Object show the node of html.\r\n\r\nStruct:\r\n\r\n```\r\n{\r\n    name:'text',\r\n    text: String,\r\n    parent: Object,\r\n    type: String\r\n}\r\n\r\nor If the node is not a text node:\r\n\r\n{\r\n    name: String,\r\n    attribs: Object,\r\n    type: String,\r\n    parent: Object\r\n}\r\n\r\n```\r\n\r\n**index**: The index of the node in the parent node.\r\n\r\n**parent**: The parent of the node.\r\n\r\n**type**: Only two types: `block` or `inline`.\r\n\r\nMor details:\r\n\r\n```\r\n\r\nvar blockTagArr = ['div', 'p', 'img', 'address',\r\n    'blockquote', 'dir', 'dl',\r\n    'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',\r\n    'menu', 'ol', 'pre', 'table', 'ul', 'li', 'hr']\r\n\r\nvar inlineTagArr = ['a', 'abbr', 'b', 'big',\r\n    'br', 'cite', 'code', 'em', 'label', 'span', 'strong']\r\n    \r\n```\r\n\r\n## FAQ\r\n\r\nMore details see [Noder](https://github.com/soliury/noder-react-native).\r\n\r\n## Licenses\r\n\r\n[MIT](https://opensource.org/licenses/MIT)\r\n\r\n\r\n\r\n\r\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soliury/react-native-html-render.git"
+  },
+  "scripts": {
+    "test": "istanbul test _mocha --report html -- test/*.js --reporter spec"
+  },
+  "version": "1.0.3"
+}
